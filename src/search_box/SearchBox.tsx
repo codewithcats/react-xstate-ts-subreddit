@@ -1,12 +1,16 @@
 import { useMachine } from "@xstate/react";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
+import { publish, registerMachine } from "../machine_registry";
 import { searchBoxMachine } from "./search_box_machine";
 
 export function SearchBox() {
   const [state, send] = useMachine(searchBoxMachine, { devTools: true });
+  useEffect(() => {
+    registerMachine("search_box", searchBoxMachine.events, send);
+  }, [send]);
 
   return (
-    <div className="search_box">
+    <div id="search_box">
       <input
         value={state.context.searchTerm}
         onChange={handleSearchTermChange}
@@ -23,6 +27,9 @@ export function SearchBox() {
   }
 
   function handleSearchClick() {
-    send("search_box__search_clicked");
+    publish({
+      type: "search_box__search_clicked",
+      searchTerm: state.context.searchTerm,
+    });
   }
 }
