@@ -11,11 +11,8 @@ export function SearchBox() {
         value={state.context.searchTerm}
         onChange={handleSearchTermChange}
       ></input>
-      <button
-        onClick={handleSearchClick}
-        disabled={state.value === "searching"}
-      >
-        {state.value === "searching" ? "searching..." : "search"}
+      <button onClick={handleSearchClick} disabled={state.matches("searching")}>
+        {state.matches("searching") ? "searching..." : "search"}
       </button>
     </div>
   );
