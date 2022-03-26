@@ -7,7 +7,7 @@ interface Context {
   subreddit: string;
 }
 
-interface Post {
+export interface Post {
   title: string;
   permalink: string;
 }
